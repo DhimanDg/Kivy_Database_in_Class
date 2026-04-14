@@ -45,7 +45,16 @@ class TaskListModel:
 
 
     def RemoveTask(self, id):
-        pass
+        try:
+            if id not in self.__data:
+                return False
+            db_removed = self.__db.RemoveTask(id)
+            if not db_removed:
+                return False
+            del self.__data[id]
+            return True
+        except Exception as err:
+            print(f'An error has occured at {err}')
         # Use a try/except clause here (except a general exception)
         # should remove the task by the passed in ID in both the local model data
         # and the sqlite data.  Return true if the removal from both places is 
