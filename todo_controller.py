@@ -8,8 +8,8 @@ class SimpleToDoView(BoxLayout):
     layoutTasks = ObjectProperty()
     new_task_title = StringProperty("")
     new_task_desc = StringProperty("")
-    # Hint: Add a new property to connect to the front end for the ID
-    #       used in the removal command.
+    remove_task_id = StringProperty("")
+
 
     def set_model(self, model):
         self.__model = model
@@ -34,7 +34,13 @@ class SimpleToDoView(BoxLayout):
         self.load_records()
 
     
-    # Add a method to be called when the user initiates a delete command.
+    def on_click_remove_task(self):
+        try:
+            task_id = int(self.remove_task_id)
+            self.__model.RemoveTask(task_id)
+            self.load_records()
+        except ValueError:
+            print("Invalid ID")
         
     
 Builder.load_file("todo_view.kv")
