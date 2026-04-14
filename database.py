@@ -42,12 +42,35 @@ class Database:
 
 
     def RemoveTask(self, task_ID):
-        pass # dont forget to remove pass when you finish this function!
+        conn = sqlite3.connect(self.__db_path)
+        cursor = conn.cursor()
+        try:
+            result = cursor.execute("DELETE FROM todotasks WHERE id=?", (task_ID,))
+            conn.commit()
+            conn.close()
+
+        # True only if a row was actually deleted
+            return result.rowcount > 0
+
+        except sqlite3.IntegrityError as e:
+            print(f"Database Error: {e}")
+            conn.close()
+            return False
+        except sqlite3.Error as e:
+            print(f"Database Error: {e}")
+            conn.close()
+            return False
+        
+        
+        
+        
+         # dont forget to remove pass when you finish this function!
         # Connect to the database and remove teh taske by the given ID.
         # Hint: The SQL to correctly remove an item by ID is the following:
         #               "DELETE FROM todotasks WHERE id=?"
         # where the "?" is the ID.
         # look at GetTaskByID as an example to base this solution off of.
+        
 
 
     def GetTasks(self):
